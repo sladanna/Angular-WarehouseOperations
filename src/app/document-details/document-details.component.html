@@ -1,0 +1,18 @@
+<div class="row">
+  <div class="col-sm-12">
+    <app-panel [document]="document" (record)="recordDocument($event)"></app-panel>
+  </div>
+</div>
+<div class="row" *ngIf="!document?.dateOfRecording">
+  <div class="col-sm-8">
+    <app-item-list [items]="items.results"></app-item-list>
+  </div>
+  <div class="col-sm-4">
+    <app-item-form [articles]="articles" (itemAdded)="newItem($event)"></app-item-form>
+  </div>
+</div>
+<div class="row" *ngIf="document?.dateOfRecording">
+  <div class="col-sm-12">
+    <app-item-list [items]="items.results"></app-item-list>
+  </div>
+</div>

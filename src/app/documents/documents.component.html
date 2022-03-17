@@ -1,0 +1,48 @@
+<div class="row">
+  <div class="col-2">
+    <ngb-pagination [collectionSize]="documents.count" [(page)]="params.page" [pageSize]="params.pageSize" (pageChange)="getDocuments()"></ngb-pagination>
+
+  </div>
+  
+  <div class="col-10">
+    <form *ngIf="showSettings">
+      <small>Date of Creation</small><input type="checkbox" name="dateOfCreation" [(ngModel)]="columns.dateOfCreation">
+      <small>Date of Recording</small><input type="checkbox" name="dateOfRecording" [(ngModel)]="columns.dateOfRecording">
+      <small>Transaction Type</small><input type="checkbox" name="transactionType" [(ngModel)]="columns.transactionType">
+      <small>Status</small><input type="checkbox" name="status" [(ngModel)]="columns.status">
+      <small>Business Partner</small><input type="checkbox" name="businessPartner" [(ngModel)]="columns.businessPartner">
+      <small>Business Partner Location</small><input type="checkbox" name="businessPartnerLocation" [(ngModel)]="columns.businessPartnerLocation">
+      <small>Year</small><input type="checkbox" name="year" [(ngModel)]="columns.year">
+    </form>
+    <button class="btn btn-primary float-right" (click)="showSettings = !showSettings">
+      <span *ngIf="!showSettings">Open table settings</span>
+      <span *ngIf="showSettings">Close table settings</span>
+    </button>
+  </div>
+</div>
+<div class="row">
+    <table class="table table-bordered col-12">
+        <thead>
+          <tr>
+            <th *ngIf="columns.dateOfCreation" scope="col" (click)="changeSort('dateOfCreation')">Date of Creation</th>
+            <th *ngIf="columns.dateOfRecording" scope="col" (click)="changeSort('dateOfRecording')">Date of Recording</th>
+            <th *ngIf="columns.status" scope="col" (click)="changeSort('status')">Status</th>
+            <th *ngIf="columns.transactionType" scope="col" (click)="changeSort('transactionType')">Transaction Type</th>
+            <th *ngIf="columns.businessPartner" scope="col">Business Partner</th>
+            <th *ngIf="columns.businessPartnerLocation" scope="col">Business Partner Location</th>
+            <th *ngIf="columns.year" scope="col" (click)="changeSort('year')">Year</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr [routerLink]="['/documents', document._id]" *ngFor="let document of documents.results">
+            <td *ngIf="columns.dateOfCreation">{{ document.dateOfCreation | date }}</td>
+            <td *ngIf="columns.dateOfRecording">{{ document.dateOfRecording | date }}</td>
+            <td *ngIf="columns.status">{{ document.status }}</td>
+            <td *ngIf="columns.transactionType">{{ document.transactionType }}</td>
+            <td *ngIf="columns.businessPartner">{{ document.businessPartner.name }}</td>
+            <td *ngIf="columns.businessPartnerLocation">{{ document.businessPartner.city }}, {{ document.businessPartner.address  }}</td>
+            <td *ngIf="columns.year">{{ document.year  }}</td>
+          </tr>
+        </tbody>
+      </table>
+</div>
